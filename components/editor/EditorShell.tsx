@@ -1,21 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEditor } from "@/lib/store";
 import { TopNavbar } from "./TopNavbar";
 import { ToolRail } from "./ToolRail";
 import { ToolPanel } from "./ToolPanel";
 import { CanvasStage } from "./CanvasStage";
 import { PropertiesPanel } from "./PropertiesPanel";
+import type { ActiveTool } from "@/lib/types";
 
-export type ActiveTool = "upload" | "frames" | "text" | "customize" | "export" | null;
+export type { ActiveTool };
 
 export function EditorShell() {
-  const [activeTool, setActiveTool] = useState<ActiveTool>(null);
-  // selectedLayerId will come from the Zustand store in Step 4
-  const selectedLayerId: string | null = null;
+  const activeTool = useEditor((s) => s.activeTool);
+  const selectedLayerId = useEditor((s) => s.selectedLayerId);
+  const setActiveTool = useEditor((s) => s.setActiveTool);
 
   function handleToolChange(tool: ActiveTool) {
-    setActiveTool((prev) => (prev === tool ? null : tool));
+    setActiveTool(activeTool === tool ? null : tool);
   }
 
   return (
