@@ -1,23 +1,23 @@
 import type { FrameComponentProps } from "../types";
 import { frameWrapperStyle, C } from "../shared";
 
-/** Pennant Banner — dark forest green full-canvas overlay with header and footer bands */
+/** Pennant Banner — forest green header + footer bands; photo shows through full-width middle */
 export function F10Frame({ customization: c }: FrameComponentProps) {
+  const headerH = 108;
+  const footerH = 108;
+
   return (
     <div
       className="absolute inset-0 pointer-events-none overflow-hidden"
       style={frameWrapperStyle(c)}
     >
-      {/* Dark green background (photo shows through centre when photo is set) */}
-      <div className="absolute inset-0" style={{ background: C.forest }} />
-
-      {/* Top header band */}
+      {/* Forest green top header band */}
       <div
         className="absolute top-0 left-0 right-0 flex items-center"
-        style={{ height: 108, paddingLeft: 72, paddingRight: 72, background: C.forest }}
+        style={{ height: headerH, paddingLeft: 72, paddingRight: 72, background: C.forest }}
       >
         <div
-          className="rounded-full flex items-center justify-center flex-shrink-0"
+          className="shrink-0 rounded-full flex items-center justify-center"
           style={{ width: 54, height: 54, background: C.gold, color: C.forest, fontSize: 10, fontWeight: 700, marginRight: 14 }}
         >
           স.উ
@@ -28,16 +28,13 @@ export function F10Frame({ customization: c }: FrameComponentProps) {
         </div>
       </div>
 
-      {/* Photo show-through window */}
-      <div
-        className="absolute left-0 right-0"
-        style={{ top: 108, height: 864, background: "transparent" }}
-      />
+      {/* Thin gold accent line below header */}
+      <div className="absolute left-0 right-0" style={{ top: headerH, height: 3, background: C.gold }} />
 
-      {/* Bottom tripartite banner */}
+      {/* Forest green bottom footer band */}
       <div
         className="absolute bottom-0 left-0 right-0 flex items-center justify-around"
-        style={{ height: 108, background: C.forest, borderTop: `2px solid ${C.gold}44` }}
+        style={{ height: footerH, background: C.forest }}
       >
         {["আমরা", "একই", "পরিবার"].map((word, i) => (
           <span key={i} style={{ color: C.cream, fontFamily: "Inter", fontSize: 15, fontWeight: 700, letterSpacing: 2 }}>
@@ -46,9 +43,8 @@ export function F10Frame({ customization: c }: FrameComponentProps) {
         ))}
       </div>
 
-      {/* Thin gold accent lines */}
-      <div className="absolute top-0 left-0 right-0" style={{ height: 3, background: C.gold }} />
-      <div className="absolute bottom-0 left-0 right-0" style={{ height: 3, background: C.gold }} />
+      {/* Thin gold accent line above footer */}
+      <div className="absolute left-0 right-0" style={{ bottom: footerH, height: 3, background: C.gold }} />
     </div>
   );
 }
