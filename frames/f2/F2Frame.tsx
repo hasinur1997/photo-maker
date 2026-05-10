@@ -1,53 +1,55 @@
 import type { FrameComponentProps } from "../types";
 import { frameWrapperStyle, C } from "../shared";
 
-/** Modern Editorial Border — dark green background with editorial header/footer overlay */
+/** Modern Editorial Border — dark green header/side/footer borders, photo shows through cream card window */
 export function F2Frame({ customization: c }: FrameComponentProps) {
+  // Card window: top=153, left=54, w=947, h=810 → photo shows through here
   return (
     <div
       className="absolute inset-0 pointer-events-none overflow-hidden"
       style={frameWrapperStyle(c)}
     >
-      {/* Dark green background — photo shows through centre */}
-      <div className="absolute inset-0" style={{ background: C.green }} />
+      {/* Dark green fills outer borders */}
+      <div className="absolute top-0 left-0 right-0" style={{ height: 153, background: C.green }} />
+      <div className="absolute left-0 right-0" style={{ top: 963, bottom: 0, background: C.green }} />
+      <div className="absolute top-0 bottom-0 left-0" style={{ width: 54, background: C.green }} />
+      <div className="absolute top-0 bottom-0 right-0" style={{ width: 79, background: C.green }} />
 
-      {/* Top header strip */}
+      {/* Header content: logo circle + school name placeholders */}
       <div
-        className="absolute top-0 left-0 right-0 flex items-center"
-        style={{ height: 68, paddingLeft: 60, paddingRight: 60, background: C.green }}
+        className="absolute flex items-center"
+        style={{ top: 0, left: 0, right: 0, height: 153, paddingLeft: 72, paddingRight: 72 }}
       >
-        {/* Logo placeholder */}
+        {/* Gold logo circle */}
         <div
-          className="flex-shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
-          style={{ width: 48, height: 48, background: C.gold, color: C.forest, marginRight: 12, fontSize: 10 }}
+          className="shrink-0 rounded-full flex items-center justify-center"
+          style={{ width: 60, height: 60, background: C.gold, color: C.forest, fontSize: 11, fontWeight: 700, marginRight: 16 }}
         >
           স.উ
         </div>
-        {/* Name block placeholder area */}
-        <div className="flex flex-col">
-          <div style={{ width: 200, height: 10, background: "rgba(250,246,237,0.3)", borderRadius: 2, marginBottom: 6 }} />
-          <div style={{ width: 120, height: 7, background: "rgba(232,198,107,0.3)", borderRadius: 2 }} />
+        {/* Name block placeholders */}
+        <div className="flex flex-col gap-2">
+          <div style={{ width: 220, height: 11, background: "rgba(250,246,237,0.25)", borderRadius: 2 }} />
+          <div style={{ width: 130, height: 8, background: "rgba(232,198,107,0.3)", borderRadius: 2 }} />
         </div>
         <div className="flex-1" />
-        {/* Star accent */}
-        <div style={{ color: C.goldLight, fontSize: 13, letterSpacing: 4 }}>★ ALUMNI ★</div>
+        <div style={{ color: C.goldLight, fontSize: 12, fontFamily: "Inter", letterSpacing: 3, fontWeight: 700 }}>
+          ALUMNI
+        </div>
       </div>
 
-      {/* Transparent photo area — leaves canvas center clear */}
+      {/* Subtle separator line below header */}
       <div
-        className="absolute left-0 right-0"
-        style={{ top: 68, height: 944, background: "transparent" }}
+        className="absolute"
+        style={{ top: 153, left: 54, right: 79, height: 1, background: "rgba(255,255,255,0.15)" }}
       />
 
-      {/* Bottom footer strip */}
+      {/* Bottom footer */}
       <div
-        className="absolute bottom-0 left-0 right-0 flex items-center justify-between"
-        style={{ height: 68, paddingLeft: 60, paddingRight: 60, background: C.green }}
+        className="absolute flex items-center justify-between"
+        style={{ top: 963, left: 0, right: 0, bottom: 0, paddingLeft: 72, paddingRight: 72 }}
       >
-        <div style={{ color: C.goldLight, fontSize: 10, fontFamily: "Inter", fontWeight: 700, letterSpacing: 2 }}>
-          ESTD · 2026
-        </div>
-        <div style={{ color: "rgba(250,246,237,0.5)", fontSize: 9, fontFamily: "Inter", letterSpacing: 1 }}>
+        <div style={{ color: C.goldLight, fontSize: 10, fontFamily: "Inter", letterSpacing: 2, fontWeight: 600 }}>
           আমাদের অতীত স্মৃতি, আমাদের বন্ধন
         </div>
       </div>

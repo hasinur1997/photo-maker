@@ -30,11 +30,6 @@ const alumniSlot = (y: number, color: string, size = 11, w = 500): TextSlot => (
   defaultText: "ALUMNI ASSOCIATION",
   defaults: { x: (1080 - w) / 2, y, width: w, height: 24, fontFamily: "Inter", fontWeight: 700, fontSize: size, color, textAlign: "center" },
 });
-const batchYearSlot = (x: number, y: number, color: string, size = 54): TextSlot => ({
-  id: "batch-year",
-  defaultText: "2010",
-  defaults: { x, y, width: 180, height: 80, fontFamily: "Inter", fontWeight: 700, fontSize: size, color, textAlign: "center" },
-});
 
 export const FRAMES: FrameDefinition[] = [
   {
@@ -89,8 +84,9 @@ export const FRAMES: FrameDefinition[] = [
     defaultCustomization: BASE,
     Component: F5Frame,
     textSlots: [
-      schoolNameSlot(380, "#1A1A14", 30),
-      alumniSlot(424, "#C8941A"),
+      // Text below circle (circle bottom at y≈830, cream area 830-1080)
+      schoolNameSlot(855, "#1A1A14", 24, 800),
+      alumniSlot(893, "#C8941A", 10, 500),
     ],
   },
   {
@@ -111,9 +107,10 @@ export const FRAMES: FrameDefinition[] = [
     defaultCustomization: BASE,
     Component: F7Frame,
     textSlots: [
-      batchYearSlot(14, 60, "#0F3A1D", 64),
-      schoolNameSlot(880, "#1C4A2B", 18, 700),
-      alumniSlot(912, "#C8941A", 9, 400),
+      // batch-year appears inside the gold circle badge (top-right: x=844, y=27, w=198, h=198)
+      { id: "batch-year", defaultText: "2010", defaults: { x: 844, y: 72, width: 198, height: 80, fontFamily: "Inter", fontWeight: 700, fontSize: 48, color: "#0F3A1D", textAlign: "center" } },
+      schoolNameSlot(840, "#1C4A2B", 18, 700),
+      alumniSlot(875, "#C8941A", 9, 400),
     ],
   },
   {
