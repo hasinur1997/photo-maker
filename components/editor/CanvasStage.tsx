@@ -9,6 +9,7 @@ import {
   handlePhotoFile,
 } from "@/lib/photo";
 import { PhotoLayer } from "./PhotoLayer";
+import { FrameLayer } from "./FrameLayer";
 import { cn } from "@/lib/utils";
 
 const CANVAS_SIZE = 1080;
@@ -77,6 +78,7 @@ export function CanvasStage() {
         >
           {/* Layer order: photo → frame → text */}
           <PhotoLayer />
+          <FrameLayer />
         </div>
       </div>
 

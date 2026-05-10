@@ -86,8 +86,9 @@ type Store = EditorState & {
   /** setFrame resets customization to defaults; pass the frame's defaultCustomization from the registry (wired in Step 6). */
   setFrame: (frameId: string, defaults?: FrameCustomization) => void;
   updateFrameCustomization: (patch: FrameCustomizationPatch) => void;
-  /** Adds a new text layer and selects it. Returns the new layer's id. */
-  addTextLayer: (partial?: Partial<Omit<TextLayer, "id">>) => string;
+  /** Adds a new text layer and selects it. Returns the layer's id.
+   *  Pass `slotId` to use a stable ID (for frame text slots). */
+  addTextLayer: (partial?: Partial<Omit<TextLayer, "id">>, slotId?: string) => string;
   updateTextLayer: (id: string, partial: Partial<Omit<TextLayer, "id">>) => void;
   deleteTextLayer: (id: string) => void;
   selectLayer: (id: string | null) => void;
@@ -150,8 +151,8 @@ const useEditorStore = create<Store>()(
       });
     },
 
-    addTextLayer(partial) {
-      const id = nanoid();
+    addTextLayer(partial, slotId) {
+      const id = slotId ?? nanoid();
       get()._pushHistory();
       set((draft) => {
         draft.textLayers.push({ ...DEFAULT_TEXT_LAYER, ...partial, id } as TextLayer);
