@@ -568,4 +568,4 @@ The build is complete when:
 - **Don't pre-load all 1500+ Google Fonts.** Only load fonts that are actually used by a text layer + lazy-load previews in the picker.
 - **Pointer events on frames.** Frames sit on top of photos but below text layers in z-index. Frame elements must have `pointer-events: none` (except interactive parts, which there are none in v1).
 - **Use canvas-pixel coordinates everywhere.** The visible canvas is scaled; never store screen-pixel positions. Convert at the boundary.
-- **The user will drop their HTML at `frames/default/frame.html`.** Open it, identify decorative SVG/divs and any text, and produce `DefaultFrame.tsx`. Hook customization props (border color/width, opacity, box-shadow) to the appropriate elements. If the HTML has hardcoded text, expose those positions as `textSlots`.
+- Use all default frame from /default-frame-templates diretory
