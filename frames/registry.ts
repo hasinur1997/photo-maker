@@ -11,6 +11,7 @@ import { F8Frame } from "./f8/F8Frame";
 import { F9Frame } from "./f9/F9Frame";
 import { F10Frame } from "./f10/F10Frame";
 import { F11Frame } from "./f11/F11Frame";
+import { F12Frame } from "./f12/F12Frame";
 
 const BASE: FrameCustomization = {
   borderColor: "#ffffff",
@@ -160,6 +161,14 @@ export const FRAMES: FrameDefinition[] = [
       { id: "alumni-assoc", defaultText: "ALUMNI ASSOCIATION", defaults: { x: 118, y: 90, width: 400, height: 18, fontFamily: "Inter", fontWeight: 700, fontSize: 10, color: "#C8941A", textAlign: "left" } },
       { id: "batch-year", defaultText: "BATCH 2008", defaults: { x: 60, y: 500, width: 960, height: 60, fontFamily: "Inter", fontWeight: 800, fontSize: 48, color: "#1C4A2B", textAlign: "center" } },
     ],
+  },
+  {
+    id: "f12",
+    name: "Alumni Memories",
+    thumbnail: "/frames/f12.png",
+    defaultCustomization: BASE,
+    Component: F12Frame,
+    textSlots: [],
   },
 ];
 

@@ -91,7 +91,7 @@ export function FramesTool() {
 const FALLBACK_COLORS: Record<string, string> = {
   f1: "#FAF6ED", f2: "#1C4A2B", f3: "#FAF6ED", f4: "#C8941A",
   f5: "#F3ECDB", f6: "#000000", f7: "#FAF6ED", f8: "#FAF6ED",
-  f9: "#F3ECDB", f10: "#0F3A1D", f11: "#F3ECDB",
+  f9: "#F3ECDB", f10: "#0F3A1D", f11: "#F3ECDB", f12: "#000000",
 };
 
 function FrameThumbnailFallback({ id }: { id: string }) {
