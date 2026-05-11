@@ -5,9 +5,15 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { useEditor } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export function TopNavbar() {
+  const canUndo = useEditor((s) => s._past.length > 0);
+  const canRedo = useEditor((s) => s._future.length > 0);
+  const undo = useEditor((s) => s.undo);
+  const redo = useEditor((s) => s.redo);
+
   return (
     <header className="h-14 shrink-0 border-b border-border bg-background flex items-center px-4 gap-2">
       {/* Brand */}
@@ -17,7 +23,8 @@ export function TopNavbar() {
       <Tooltip>
         <TooltipTrigger
           aria-label="Undo"
-          disabled
+          disabled={!canUndo}
+          onClick={undo}
           className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
         >
           <Undo2 className="h-4 w-4" />
@@ -29,7 +36,8 @@ export function TopNavbar() {
       <Tooltip>
         <TooltipTrigger
           aria-label="Redo"
-          disabled
+          disabled={!canRedo}
+          onClick={redo}
           className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
         >
           <Redo2 className="h-4 w-4" />
@@ -42,7 +50,7 @@ export function TopNavbar() {
 
       <Separator orientation="vertical" className="h-6" />
 
-      {/* Theme toggle — has its own aria-label */}
+      {/* Theme toggle */}
       <ThemeToggle />
 
       {/* Download (placeholder — wired in Step 13) */}

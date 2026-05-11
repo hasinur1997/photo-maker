@@ -19,6 +19,7 @@ import { ColorPicker } from "@/components/shared/ColorPicker";
 import { SliderField } from "@/components/shared/SliderField";
 import { FontPicker } from "@/components/shared/FontPicker";
 import { useEditor } from "@/lib/store";
+import { useDebouncedHistoryPush } from "@/lib/history";
 import { getAvailableWeights } from "@/lib/google-fonts-list";
 import type { TextLayer } from "@/lib/types";
 
@@ -38,10 +39,12 @@ export function PropertiesPanel() {
   const selectedLayerId = useEditor((s) => s.selectedLayerId);
   const textLayers = useEditor((s) => s.textLayers);
   const updateTextLayer = useEditor((s) => s.updateTextLayer);
+  const pushHistory = useEditor((s) => s._pushHistory);
   const deleteTextLayer = useEditor((s) => s.deleteTextLayer);
   const duplicateTextLayer = useEditor((s) => s.duplicateTextLayer);
   const moveLayerUp = useEditor((s) => s.moveLayerUp);
   const moveLayerDown = useEditor((s) => s.moveLayerDown);
+  const debouncedPush = useDebouncedHistoryPush();
 
   const layer = textLayers.find((l) => l.id === selectedLayerId);
 
@@ -55,9 +58,18 @@ export function PropertiesPanel() {
     );
   }
 
-  function update(partial: Partial<Omit<TextLayer, "id">>) {
-    if (!layer) return;
-    updateTextLayer(layer.id, partial);
+  const layerId = layer.id;
+
+  // For slider-driven changes: update immediately, debounce the history push
+  function updateSlider(partial: Partial<Omit<TextLayer, "id">>) {
+    updateTextLayer(layerId, partial);
+    debouncedPush();
+  }
+
+  // For discrete changes (picker, toggle, select): push history first then update
+  function updateDiscrete(partial: Partial<Omit<TextLayer, "id">>) {
+    pushHistory();
+    updateTextLayer(layerId, partial);
   }
 
   return (
@@ -76,7 +88,7 @@ export function PropertiesPanel() {
             const bestWeight = weights.includes(layer.fontWeight)
               ? layer.fontWeight
               : weights.includes(400) ? 400 : weights[0];
-            update({ fontFamily: family, fontWeight: bestWeight });
+            updateDiscrete({ fontFamily: family, fontWeight: bestWeight });
           }}
         />
 
@@ -86,7 +98,7 @@ export function PropertiesPanel() {
           <select
             className="w-full h-8 rounded-md border border-input bg-transparent px-2 text-xs focus:outline-none focus:ring-2 focus:ring-ring"
             value={layer.fontWeight}
-            onChange={(e) => update({ fontWeight: Number(e.target.value) })}
+            onChange={(e) => updateDiscrete({ fontWeight: Number(e.target.value) })}
           >
             {getAvailableWeights(layer.fontFamily).map((w) => (
               <option key={w} value={w}>
@@ -101,7 +113,7 @@ export function PropertiesPanel() {
           <Toggle
             size="sm"
             pressed={layer.fontStyle === "italic"}
-            onPressedChange={(p) => update({ fontStyle: p ? "italic" : "normal" })}
+            onPressedChange={(p) => updateDiscrete({ fontStyle: p ? "italic" : "normal" })}
             aria-label="Italic"
           >
             <Italic className="w-3.5 h-3.5" />
@@ -109,7 +121,7 @@ export function PropertiesPanel() {
           <Toggle
             size="sm"
             pressed={layer.underline}
-            onPressedChange={(p) => update({ underline: p })}
+            onPressedChange={(p) => updateDiscrete({ underline: p })}
             aria-label="Underline"
           >
             <Underline className="w-3.5 h-3.5" />
@@ -125,14 +137,14 @@ export function PropertiesPanel() {
           min={8}
           max={200}
           unit="px"
-          onChange={(v) => update({ fontSize: v })}
+          onChange={(v) => updateSlider({ fontSize: v })}
         />
 
         {/* Color */}
         <ColorPicker
           label="Text color"
           value={layer.color}
-          onChange={(v) => update({ color: v })}
+          onChange={(v) => updateSlider({ color: v })}
         />
 
         <Separator />
@@ -144,7 +156,7 @@ export function PropertiesPanel() {
             <Toggle
               size="sm"
               pressed={layer.textAlign === "left"}
-              onPressedChange={() => update({ textAlign: "left" })}
+              onPressedChange={() => updateDiscrete({ textAlign: "left" })}
               aria-label="Align left"
             >
               <AlignLeft className="w-3.5 h-3.5" />
@@ -152,7 +164,7 @@ export function PropertiesPanel() {
             <Toggle
               size="sm"
               pressed={layer.textAlign === "center"}
-              onPressedChange={() => update({ textAlign: "center" })}
+              onPressedChange={() => updateDiscrete({ textAlign: "center" })}
               aria-label="Align center"
             >
               <AlignCenter className="w-3.5 h-3.5" />
@@ -160,7 +172,7 @@ export function PropertiesPanel() {
             <Toggle
               size="sm"
               pressed={layer.textAlign === "right"}
-              onPressedChange={() => update({ textAlign: "right" })}
+              onPressedChange={() => updateDiscrete({ textAlign: "right" })}
               aria-label="Align right"
             >
               <AlignRight className="w-3.5 h-3.5" />
@@ -177,7 +189,7 @@ export function PropertiesPanel() {
           min={0.8}
           max={3}
           step={0.1}
-          onChange={(v) => update({ lineHeight: v })}
+          onChange={(v) => updateSlider({ lineHeight: v })}
         />
 
         {/* Letter spacing */}
@@ -188,7 +200,7 @@ export function PropertiesPanel() {
           max={20}
           step={0.5}
           unit="px"
-          onChange={(v) => update({ letterSpacing: v })}
+          onChange={(v) => updateSlider({ letterSpacing: v })}
         />
 
         {/* Rotation */}
@@ -198,12 +210,12 @@ export function PropertiesPanel() {
           min={-180}
           max={180}
           unit="°"
-          onChange={(v) => update({ rotation: v })}
+          onChange={(v) => updateSlider({ rotation: v })}
         />
 
         <Separator />
 
-        {/* Z-order */}
+        {/* Z-order — store actions push history internally */}
         <div className="space-y-1.5">
           <Label className="text-xs text-muted-foreground">Layer order</Label>
           <div className="flex gap-2">
@@ -230,7 +242,7 @@ export function PropertiesPanel() {
 
         <Separator />
 
-        {/* Duplicate + Delete */}
+        {/* Duplicate + Delete — store actions push history internally */}
         <div className="flex gap-2">
           <Button
             variant="outline"

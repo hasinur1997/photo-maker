@@ -9,17 +9,29 @@ import { Separator } from "@/components/ui/separator";
 import { ColorPicker } from "@/components/shared/ColorPicker";
 import { SliderField } from "@/components/shared/SliderField";
 import { useEditor } from "@/lib/store";
+import { useDebouncedHistoryPush } from "@/lib/history";
 import { getFrame } from "@/frames/registry";
 
 export function CustomizeFrameTool() {
   const frameId = useEditor((s) => s.frameId);
   const c = useEditor((s) => s.frameCustomization);
   const updateFrameCustomization = useEditor((s) => s.updateFrameCustomization);
+  const pushHistory = useEditor((s) => s._pushHistory);
+  const debouncedPush = useDebouncedHistoryPush();
   const [shadowOpen, setShadowOpen] = useState(false);
 
   function reset() {
     const frame = getFrame(frameId);
-    if (frame) updateFrameCustomization(frame.defaultCustomization);
+    if (frame) {
+      pushHistory(); // immediate push before reset
+      updateFrameCustomization(frame.defaultCustomization);
+    }
+  }
+
+  // Wrapper: update immediately (for real-time preview) + debounce the history push
+  function update(patch: Parameters<typeof updateFrameCustomization>[0]) {
+    updateFrameCustomization(patch);
+    debouncedPush();
   }
 
   return (
@@ -38,7 +50,7 @@ export function CustomizeFrameTool() {
         <ColorPicker
           label="Border color"
           value={c.borderColor}
-          onChange={(v) => updateFrameCustomization({ borderColor: v })}
+          onChange={(v) => update({ borderColor: v })}
         />
 
         {/* Border thickness */}
@@ -48,7 +60,7 @@ export function CustomizeFrameTool() {
           min={0}
           max={80}
           unit="px"
-          onChange={(v) => updateFrameCustomization({ borderWidth: v })}
+          onChange={(v) => update({ borderWidth: v })}
         />
 
         <Separator />
@@ -60,7 +72,7 @@ export function CustomizeFrameTool() {
           min={0}
           max={100}
           unit="%"
-          onChange={(v) => updateFrameCustomization({ opacity: v / 100 })}
+          onChange={(v) => update({ opacity: v / 100 })}
         />
 
         <Separator />
@@ -81,12 +93,15 @@ export function CustomizeFrameTool() {
 
           {shadowOpen && (
             <div className="space-y-4 pl-1">
-              {/* Enable toggle */}
+              {/* Enable toggle — immediate history push (discrete action) */}
               <div className="flex items-center gap-2">
                 <Switch
                   id="shadow-enabled"
                   checked={c.shadow.enabled}
-                  onCheckedChange={(v) => updateFrameCustomization({ shadow: { enabled: v } })}
+                  onCheckedChange={(v) => {
+                    pushHistory();
+                    updateFrameCustomization({ shadow: { enabled: v } });
+                  }}
                 />
                 <Label htmlFor="shadow-enabled" className="text-xs cursor-pointer">
                   Enable shadow
@@ -101,7 +116,7 @@ export function CustomizeFrameTool() {
                     min={-50}
                     max={50}
                     unit="px"
-                    onChange={(v) => updateFrameCustomization({ shadow: { x: v } })}
+                    onChange={(v) => update({ shadow: { x: v } })}
                   />
                   <SliderField
                     label="Y offset"
@@ -109,7 +124,7 @@ export function CustomizeFrameTool() {
                     min={-50}
                     max={50}
                     unit="px"
-                    onChange={(v) => updateFrameCustomization({ shadow: { y: v } })}
+                    onChange={(v) => update({ shadow: { y: v } })}
                   />
                   <SliderField
                     label="Blur"
@@ -117,7 +132,7 @@ export function CustomizeFrameTool() {
                     min={0}
                     max={100}
                     unit="px"
-                    onChange={(v) => updateFrameCustomization({ shadow: { blur: v } })}
+                    onChange={(v) => update({ shadow: { blur: v } })}
                   />
                   <SliderField
                     label="Spread"
@@ -125,17 +140,12 @@ export function CustomizeFrameTool() {
                     min={-50}
                     max={50}
                     unit="px"
-                    onChange={(v) => updateFrameCustomization({ shadow: { spread: v } })}
+                    onChange={(v) => update({ shadow: { spread: v } })}
                   />
                   <ColorPicker
                     label="Shadow color"
-                    value={
-                      // extract hex from rgba for the picker; fallback to #000000
-                      c.shadow.color.startsWith("#")
-                        ? c.shadow.color
-                        : "#000000"
-                    }
-                    onChange={(v) => updateFrameCustomization({ shadow: { color: v } })}
+                    value={c.shadow.color.startsWith("#") ? c.shadow.color : "#000000"}
+                    onChange={(v) => update({ shadow: { color: v } })}
                   />
                 </>
               )}
