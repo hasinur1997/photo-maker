@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useEditor } from "@/lib/store";
+import { loadFromLocalStorage, usePersistence } from "@/lib/persistence";
 import { TopNavbar } from "./TopNavbar";
 import { ToolRail } from "./ToolRail";
 import { ToolPanel } from "./ToolPanel";
@@ -29,8 +30,19 @@ export function EditorShell() {
   const duplicateTextLayer = useEditor((s) => s.duplicateTextLayer);
   const selectLayer = useEditor((s) => s.selectLayer);
   const addTextLayer = useEditor((s) => s.addTextLayer);
+  const loadFromStorage = useEditor((s) => s.loadFromStorage);
   const undo = useEditor((s) => s.undo);
   const redo = useEditor((s) => s.redo);
+
+  // Restore persisted state before the browser paints so there's no empty-canvas flash
+  useLayoutEffect(() => {
+    const snapshot = loadFromLocalStorage();
+    if (snapshot) loadFromStorage(snapshot);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once on mount
+
+  // Subscribe to store changes and throttle-save to localStorage
+  usePersistence();
 
   function handleToolChange(tool: ActiveTool) {
     setActiveTool(activeTool === tool ? null : tool);
@@ -42,7 +54,6 @@ export function EditorShell() {
 
       const meta = e.metaKey || e.ctrlKey;
 
-      // Undo / Redo
       if (meta && e.shiftKey && e.key === "Z") {
         e.preventDefault();
         redo();
@@ -53,29 +64,21 @@ export function EditorShell() {
         undo();
         return;
       }
-
-      // Duplicate
       if (meta && e.key === "d") {
         e.preventDefault();
         if (selectedLayerId) duplicateTextLayer(selectedLayerId);
         return;
       }
-
-      // Add text layer
       if (e.key === "t" && !meta) {
         e.preventDefault();
         addTextLayer();
         return;
       }
-
-      // Delete selected layer
       if ((e.key === "Delete" || e.key === "Backspace") && selectedLayerId) {
         e.preventDefault();
         deleteTextLayer(selectedLayerId);
         return;
       }
-
-      // Deselect
       if (e.key === "Escape") {
         e.preventDefault();
         selectLayer(null);

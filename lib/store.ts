@@ -56,7 +56,7 @@ const INITIAL_STATE: EditorState = {
 
 // ─── History snapshot (content only — not UI state) ───────────────────────────
 
-type ContentSnapshot = Pick<
+export type ContentSnapshot = Pick<
   EditorState,
   "photo" | "frameId" | "frameCustomization" | "textLayers"
 >;
