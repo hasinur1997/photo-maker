@@ -31,7 +31,7 @@ export function CanvasStage() {
     if (!el) return;
     const observer = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
-      const s = Math.min((width - 8) / CANVAS_SIZE, (height - 8) / CANVAS_SIZE);
+      const s = Math.min(width / CANVAS_SIZE, height / CANVAS_SIZE);
       setScale(Math.max(Math.min(s, 1), 0.05));
     });
     observer.observe(el);
@@ -66,7 +66,7 @@ export function CanvasStage() {
     >
       {/* Wrapper sized to scaled canvas dimensions */}
       <div
-        className="relative shadow-2xl"
+        className="relative"
         style={{ width: scaledSize, height: scaledSize }}
       >
         {/* The actual 1080×1080 canvas, scaled via CSS transform.
