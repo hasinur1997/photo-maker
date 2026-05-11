@@ -34,6 +34,7 @@ export type TextLayer = {
   fontStyle: "normal" | "italic";
   fontSize: number; // px in canvas space
   color: string; // hex
+  backgroundColor: string; // hex or "" for transparent
   textAlign: "left" | "center" | "right";
   lineHeight: number; // unitless multiplier
   letterSpacing: number; // px

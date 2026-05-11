@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Toggle } from "@/components/ui/toggle";
+import { Switch } from "@/components/ui/switch";
 import { ColorPicker } from "@/components/shared/ColorPicker";
 import { SliderField } from "@/components/shared/SliderField";
 import { FontPicker } from "@/components/shared/FontPicker";
@@ -140,12 +141,32 @@ export function PropertiesPanel() {
           onChange={(v) => updateSlider({ fontSize: v })}
         />
 
-        {/* Color */}
+        {/* Text color */}
         <ColorPicker
           label="Text color"
           value={layer.color}
           onChange={(v) => updateSlider({ color: v })}
         />
+
+        {/* Background color */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label className="text-xs text-muted-foreground">Background color</Label>
+            <Switch
+              size="sm"
+              checked={!!layer.backgroundColor}
+              onCheckedChange={(checked) =>
+                updateDiscrete({ backgroundColor: checked ? "#ffffff" : "" })
+              }
+            />
+          </div>
+          {layer.backgroundColor && (
+            <ColorPicker
+              value={layer.backgroundColor}
+              onChange={(v) => updateSlider({ backgroundColor: v })}
+            />
+          )}
+        </div>
 
         <Separator />
 

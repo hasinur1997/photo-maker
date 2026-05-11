@@ -38,6 +38,7 @@ const DEFAULT_TEXT_LAYER: Omit<TextLayer, "id"> = {
   fontStyle: "normal",
   fontSize: 48,
   color: "#000000",
+  backgroundColor: "",
   textAlign: "center",
   lineHeight: 1.4,
   letterSpacing: 0,

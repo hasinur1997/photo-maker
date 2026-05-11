@@ -64,6 +64,7 @@ export function ExportCanvas() {
             fontStyle: layer.fontStyle,
             fontSize: layer.fontSize,
             color: layer.color,
+            backgroundColor: layer.backgroundColor || undefined,
             textAlign: layer.textAlign,
             lineHeight: layer.lineHeight,
             letterSpacing: `${layer.letterSpacing}px`,

@@ -81,6 +81,7 @@ export function TextLayerView({ layer, scale }: TextLayerViewProps) {
     fontStyle: layer.fontStyle,
     fontSize: layer.fontSize * scale,
     color: layer.color,
+    backgroundColor: layer.backgroundColor || undefined,
     textAlign: layer.textAlign,
     lineHeight: layer.lineHeight,
     letterSpacing: `${layer.letterSpacing * scale}px`,
