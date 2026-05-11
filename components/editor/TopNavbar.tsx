@@ -18,8 +18,19 @@ export function TopNavbar() {
 
   return (
     <header className="h-14 shrink-0 border-b border-border bg-background flex items-center px-4 gap-2">
-      {/* Brand */}
-      <span className="font-semibold text-foreground mr-4">Photo Frame Maker</span>
+      {/* Logo */}
+      <div className="flex items-center gap-2.5 mr-4 shrink-0">
+        <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center shrink-0">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-primary-foreground">
+            <rect x="1.25" y="1.25" width="13.5" height="13.5" rx="2.5" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M3.5 11.5L5.75 8L7.75 10.5L9.5 8.5L12.5 11.5H3.5Z" fill="currentColor" fillOpacity="0.7"/>
+            <circle cx="11" cy="5" r="1.25" fill="currentColor"/>
+          </svg>
+        </div>
+        <span className="font-semibold text-sm tracking-tight text-foreground leading-none">
+          Photo Frame Maker
+        </span>
+      </div>
 
       {/* Undo */}
       <Tooltip>
