@@ -1,8 +1,17 @@
+"use client";
+
+import { useEffect } from "react";
+import { loadFont } from "@/lib/google-fonts";
 import type { FrameComponentProps } from "../types";
 import { frameWrapperStyle, C } from "../shared";
 
-/** Magazine Cover — black background, full-canvas photo, gradient overlays top/bottom */
+/** Magazine Cover — dark gradient overlays, school logo top-left, title at bottom */
 export function F6Frame({ customization: c }: FrameComponentProps) {
+  useEffect(() => {
+    void loadFont("Hind Siliguri", [400, 700]);
+    void loadFont("Galada", [400]);
+  }, []);
+
   return (
     <div
       className="absolute inset-0 pointer-events-none overflow-hidden"
@@ -12,56 +21,89 @@ export function F6Frame({ customization: c }: FrameComponentProps) {
       <div
         className="absolute top-0 left-0 right-0"
         style={{
-          height: 252,
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%)",
+          height: 280,
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0) 100%)",
         }}
       />
 
-      {/* Top header content area */}
+      {/* Top header row: logo | spacer | ALUMNI badge */}
       <div
         className="absolute top-0 left-0 right-0 flex items-center"
-        style={{ height: 68, paddingLeft: 60, paddingRight: 60 }}
+        style={{ height: 140, paddingLeft: 24, paddingRight: 24, gap: 16 }}
       >
+        {/* School logo circle */}
         <div
-          className="flex-shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
-          style={{ width: 48, height: 48, background: C.gold, color: C.forest, marginRight: 12, fontSize: 10 }}
+          style={{
+            width: 72,
+            height: 72,
+            borderRadius: "50%",
+            overflow: "hidden",
+            border: "2px solid rgba(255,255,255,0.85)",
+            flexShrink: 0,
+          }}
         >
-          স.উ
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/school-logo.png"
+            alt=""
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
         </div>
-        <div style={{ color: C.white, fontFamily: "Inter", fontSize: 11, letterSpacing: 2 }}>
+
+        <div style={{ flex: 1 }} />
+
+        {/* ALUMNI '26 badge */}
+        <div
+          style={{
+            backgroundColor: C.gold,
+            color: C.dark,
+            fontFamily: "Inter, sans-serif",
+            fontSize: 11,
+            fontWeight: 800,
+            letterSpacing: 3,
+            padding: "10px 16px",
+            flexShrink: 0,
+          }}
+        >
           ALUMNI &#39;26
         </div>
-        <div className="flex-1" />
-        <div style={{ color: C.gold, fontSize: 10, fontFamily: "Inter", letterSpacing: 3, fontWeight: 700 }}>
-          VOL. 01
-        </div>
+      </div>
+
+      {/* Right-edge vertical text */}
+      <div
+        className="absolute top-0 bottom-0 right-0 flex items-center justify-center"
+        style={{ width: 40 }}
+      >
+        <span
+          style={{
+            color: C.gold,
+            fontFamily: "Inter, sans-serif",
+            fontSize: 9,
+            fontWeight: 700,
+            letterSpacing: 4,
+            transform: "rotate(90deg)",
+            whiteSpace: "nowrap",
+            display: "block",
+          }}
+        >
+          SARATGANJ · MEMORIES VOL. 01
+        </span>
       </div>
 
       {/* Bottom gradient overlay */}
       <div
         className="absolute bottom-0 left-0 right-0"
         style={{
-          height: 324,
-          background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)",
+          height: 380,
+          background: "linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0) 100%)",
         }}
       />
 
-      {/* Bottom content bar */}
+      {/* Gold accent line — sits just above main-title text slot */}
       <div
-        className="absolute bottom-0 left-0 right-0 flex items-center justify-between"
-        style={{ height: 54, paddingLeft: 60, paddingRight: 60 }}
-      >
-        <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 10, fontFamily: "Inter", letterSpacing: 2 }}>
-          SARATGANJ · MEMORIES
-        </div>
-        <div
-          style={{ width: 36, height: 36, borderRadius: "50%",
-            background: C.gold, display: "flex", alignItems: "center",
-            justifyContent: "center", fontSize: 10, fontWeight: 700, color: C.forest }}
-        >
-          &#9733;
-        </div>
-      </div>
+        className="absolute"
+        style={{ left: 54, top: 862, width: 64, height: 2.5, backgroundColor: C.gold }}
+      />
     </div>
   );
 }

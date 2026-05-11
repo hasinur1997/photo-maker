@@ -84,9 +84,8 @@ export function ExportCanvas() {
               wordBreak: "break-word",
               width: "100%",
             }}
-          >
-            {layer.text}
-          </div>
+            dangerouslySetInnerHTML={{ __html: layer.text }}
+          />
         </div>
       ))}
     </div>

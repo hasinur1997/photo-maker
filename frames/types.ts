@@ -6,7 +6,7 @@ export type TextSlot = {
   defaults: Pick<
     TextLayer,
     "x" | "y" | "width" | "height" | "fontFamily" | "fontWeight" | "fontSize" | "color" | "textAlign"
-  >;
+  > & { letterSpacing?: number; lineHeight?: number };
 };
 
 export type FrameComponentProps = {

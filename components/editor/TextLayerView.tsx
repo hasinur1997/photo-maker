@@ -39,7 +39,10 @@ export function TextLayerView({ layer, scale }: TextLayerViewProps) {
   useEffect(() => {
     if (!editing || !editableRef.current) return;
     const el = editableRef.current;
-    el.innerText = layer.text;
+    // Use innerHTML so previously-applied inline spans are preserved
+    el.innerHTML = layer.text;
+    // Enable CSS-based output from execCommand (bold → span style, not <b>)
+    try { document.execCommand("styleWithCSS", false, "true"); } catch { /* unsupported */ }
     el.focus();
     const range = document.createRange();
     range.selectNodeContents(el);
@@ -52,7 +55,9 @@ export function TextLayerView({ layer, scale }: TextLayerViewProps) {
 
   const commitEdit = useCallback(() => {
     if (!editableRef.current) return;
-    updateTextLayer(layer.id, { text: editableRef.current.innerText });
+    // Strip trailing <br> contentEditable appends to empty content
+    const html = editableRef.current.innerHTML.replace(/(<br\s*\/?>)+$/i, "");
+    updateTextLayer(layer.id, { text: html });
     setEditing(false);
   }, [layer.id, updateTextLayer]);
 
@@ -157,10 +162,10 @@ export function TextLayerView({ layer, scale }: TextLayerViewProps) {
           <div className="absolute inset-0 ring-2 ring-primary pointer-events-none" />
         )}
 
-        {/* Display mode */}
+        {/* Display mode — innerHTML renders inline formatting spans */}
         {!editing && (
           <div style={{ ...containerStyle, cursor: "move", userSelect: "none" }}>
-            <div style={innerStyle}>{layer.text}</div>
+            <div style={innerStyle} dangerouslySetInnerHTML={{ __html: layer.text }} />
           </div>
         )}
 
@@ -172,6 +177,7 @@ export function TextLayerView({ layer, scale }: TextLayerViewProps) {
               ref={editableRef}
               contentEditable
               suppressContentEditableWarning
+              data-inline-edit="true"
               style={{ ...innerStyle, outline: "none" }}
               onKeyDown={handleKeyDown}
               onBlur={handleBlur}

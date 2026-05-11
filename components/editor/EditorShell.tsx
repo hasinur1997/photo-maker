@@ -14,6 +14,7 @@ import { PropertiesPanel } from "./PropertiesPanel";
 import { MobileToolBar } from "./MobileToolBar";
 import { ExportCanvas } from "./ExportCanvas";
 import { ExportDialog } from "./ExportDialog";
+import { InlineFormatToolbar } from "./InlineFormatToolbar";
 import type { ActiveTool } from "@/lib/types";
 
 export type { ActiveTool };
@@ -154,6 +155,7 @@ export function EditorShell() {
         <ExportCanvas />
       </div>
       <ExportDialog />
+      <InlineFormatToolbar />
     </div>
   );
 }

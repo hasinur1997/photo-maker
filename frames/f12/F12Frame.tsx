@@ -5,7 +5,7 @@ import { loadFont } from "@/lib/google-fonts";
 import type { FrameComponentProps } from "../types";
 import { frameWrapperStyle, C } from "../shared";
 
-/** Alumni Memories — solid black top/bottom bars, hardcoded school logo + Bengali title */
+/** Alumni Memories — gradient top/bottom overlays so the photo shows through */
 export function F12Frame({ customization: c }: FrameComponentProps) {
   useEffect(() => {
     void loadFont("Hind Siliguri", [400, 700]);
@@ -17,15 +17,22 @@ export function F12Frame({ customization: c }: FrameComponentProps) {
       className="absolute inset-0 pointer-events-none overflow-hidden"
       style={frameWrapperStyle(c)}
     >
-      {/* ── Solid black top header ── */}
+      {/* ── Top gradient overlay with logo + badge ── */}
       <div
-        className="absolute top-0 left-0 right-0 flex items-center"
-        style={{ height: 115, backgroundColor: C.black, paddingLeft: 28, paddingRight: 28, gap: 16 }}
+        className="absolute top-0 left-0 right-0 flex items-start"
+        style={{
+          height: 220,
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0) 100%)",
+          padding: "16px 28px",
+          gap: 16,
+        }}
       >
         {/* School logo */}
         <div
           style={{
-            width: 84, height: 84, borderRadius: "50%",
+            width: 84,
+            height: 84,
+            borderRadius: "50%",
             overflow: "hidden",
             border: "2.5px solid rgba(255,255,255,0.85)",
             flexShrink: 0,
@@ -37,16 +44,6 @@ export function F12Frame({ customization: c }: FrameComponentProps) {
             alt=""
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
-        </div>
-
-        {/* School name + association label */}
-        <div style={{ flexShrink: 1, minWidth: 0 }}>
-          <div style={{ color: C.white, fontSize: 20, fontWeight: 700, fontFamily: "'Hind Siliguri', sans-serif", lineHeight: 1.25 }}>
-            শরৎগঞ্জ তফিজ উদ্দিন আহমেদ উচ্চ বিদ্যালয়
-          </div>
-          <div style={{ color: C.gold, fontSize: 10, fontWeight: 700, letterSpacing: 4, marginTop: 6, fontFamily: "Inter, sans-serif" }}>
-            ALUMNI ASSOCIATION
-          </div>
         </div>
 
         <div style={{ flex: 1 }} />
@@ -67,12 +64,6 @@ export function F12Frame({ customization: c }: FrameComponentProps) {
           ALUMNI &#39;26
         </div>
       </div>
-
-      {/* Thin gold separator under header */}
-      <div
-        className="absolute left-0 right-0"
-        style={{ top: 115, height: 1, background: `rgba(200,148,26,0.3)` }}
-      />
 
       {/* ── Right-edge vertical text ── */}
       <div
@@ -95,29 +86,20 @@ export function F12Frame({ customization: c }: FrameComponentProps) {
         </span>
       </div>
 
-      {/* ── Solid black bottom section ── */}
+      {/* Gold accent line — sits just above the main-title text slot */}
       <div
-        className="absolute bottom-0 left-0 right-0 flex flex-col justify-center"
-        style={{ height: 225, backgroundColor: C.black, padding: "18px 36px 26px" }}
-      >
-        {/* Gold accent line */}
-        <div style={{ width: 72, height: 2.5, backgroundColor: C.gold, marginBottom: 12 }} />
+        className="absolute"
+        style={{ left: 36, top: 873, width: 72, height: 2.5, backgroundColor: C.gold }}
+      />
 
-        {/* Main title: আমাদের (white) স্মৃতি (gold italic) */}
-        <div style={{ lineHeight: 1.05, marginBottom: 14 }}>
-          <span style={{ color: C.white, fontSize: 80, fontWeight: 700, fontFamily: "'Hind Siliguri', sans-serif" }}>
-            আমাদের{" "}
-          </span>
-          <span style={{ color: C.gold, fontSize: 80, fontWeight: 700, fontStyle: "italic", fontFamily: "'Galada', cursive" }}>
-            স্মৃতি
-          </span>
-        </div>
-
-        {/* Subtitle */}
-        <div style={{ fontSize: 15, color: "rgba(255,255,255,0.65)", fontFamily: "'Hind Siliguri', sans-serif", lineHeight: 1.5 }}>
-          প্রতিটি মুহূর্ত, প্রতিটি বন্ধন — আমাদের আলামনাই আসোসিয়েশনের গর্ব।
-        </div>
-      </div>
+      {/* ── Bottom gradient overlay ── */}
+      <div
+        className="absolute bottom-0 left-0 right-0"
+        style={{
+          height: 320,
+          background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%)",
+        }}
+      />
     </div>
   );
 }

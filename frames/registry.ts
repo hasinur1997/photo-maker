@@ -98,8 +98,10 @@ export const FRAMES: FrameDefinition[] = [
     defaultCustomization: BASE,
     Component: F6Frame,
     textSlots: [
-      { id: "school-name", defaultText: "শরৎগঞ্জ তফিজ উদ্দিন আহমেদ উচ্চ বিদ্যালয়", defaults: { x: 122, y: 17, width: 400, height: 26, fontFamily: "Hind Siliguri", fontWeight: 700, fontSize: 18, color: "#FFFFFF", textAlign: "left" } },
-      { id: "main-title", defaultText: "স্মৃতির পাতায়", defaults: { x: 60, y: 700, width: 960, height: 80, fontFamily: "Galada", fontWeight: 400, fontSize: 72, color: "#FFFFFF", textAlign: "center" } },
+      { id: "school-name", defaultText: "শরৎগঞ্জ তফিজ উদ্দিন আহমেদ উচ্চ বিদ্যালয়", defaults: { x: 112, y: 34, width: 820, height: 28, fontFamily: "Hind Siliguri", fontWeight: 700, fontSize: 18, color: "#FFFFFF", textAlign: "left" } },
+      { id: "alumni-assoc", defaultText: "Alumni Association", defaults: { x: 112, y: 66, width: 600, height: 22, fontFamily: "Inter", fontWeight: 700, fontSize: 10, color: "#C8941A", textAlign: "left", letterSpacing: 2 } },
+      { id: "main-title", defaultText: "আমাদের স্মৃতি", defaults: { x: 54, y: 872, width: 970, height: 74, fontFamily: "Galada", fontWeight: 400, fontSize: 58, color: "#FFFFFF", textAlign: "left" } },
+      { id: "subtitle", defaultText: "প্রতিটি মুহূর্ত, প্রতিটি বন্ধন — আমাদের অ্যালামনাই অ্যাসোসিয়েশনের গর্ব।", defaults: { x: 54, y: 954, width: 970, height: 54, fontFamily: "Hind Siliguri", fontWeight: 400, fontSize: 13, color: "rgba(255,255,255,0.72)", textAlign: "left", lineHeight: 1.5 } },
     ],
   },
   {
@@ -168,7 +170,12 @@ export const FRAMES: FrameDefinition[] = [
     thumbnail: "/frames/f12.png",
     defaultCustomization: BASE,
     Component: F12Frame,
-    textSlots: [],
+    textSlots: [
+      { id: "school-name", defaultText: "শরৎগঞ্জ তফিজ উদ্দিন আহমেদ উচ্চ বিদ্যালয়", defaults: { x: 128, y: 24, width: 570, height: 30, fontFamily: "Hind Siliguri", fontWeight: 700, fontSize: 20, color: "#FFFFFF", textAlign: "left" } },
+      { id: "alumni-assoc", defaultText: "ALUMNI ASSOCIATION", defaults: { x: 128, y: 56, width: 400, height: 18, fontFamily: "Inter", fontWeight: 700, fontSize: 10, color: "#C8941A", textAlign: "left", letterSpacing: 4 } },
+      { id: "main-title", defaultText: "আমাদের স্মৃতি", defaults: { x: 36, y: 888, width: 970, height: 90, fontFamily: "Galada", fontWeight: 400, fontSize: 80, color: "#FFFFFF", textAlign: "left" } },
+      { id: "subtitle", defaultText: "প্রতিটি মুহূর্ত, প্রতিটি বন্ধন — আমাদের আলামনাই অ্যাসোসিয়েশনের গর্ব।", defaults: { x: 36, y: 985, width: 970, height: 60, fontFamily: "Hind Siliguri", fontWeight: 400, fontSize: 15, color: "rgba(255,255,255,0.65)", textAlign: "left", lineHeight: 1.5 } },
+    ],
   },
 ];
 

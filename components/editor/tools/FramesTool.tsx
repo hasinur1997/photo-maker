@@ -27,13 +27,14 @@ export function FramesTool() {
       if (!alreadyExists) {
         addTextLayer(
           {
-            ...slot.defaults,
-            text: slot.defaultText,
+            // fallback defaults — slot.defaults overrides these
             rotation: 0,
             fontStyle: "normal",
             lineHeight: 1.4,
             letterSpacing: 0,
             underline: false,
+            ...slot.defaults,
+            text: slot.defaultText,
           },
           slot.id // stable slot ID — preserved if user switches frames and back
         );
