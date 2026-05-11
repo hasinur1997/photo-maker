@@ -67,9 +67,9 @@ export function CanvasStage() {
       <div
         className="relative shadow-xl"
         style={{ width: scaledSize, height: scaledSize }}
-        onClick={() => selectLayer(null)}
       >
-        {/* The actual 1080×1080 canvas, scaled via CSS transform */}
+        {/* The actual 1080×1080 canvas, scaled via CSS transform.
+            Clicking the canvas background (photo/frame area) deselects layers. */}
         <div
           data-canvas-root
           className="absolute top-0 left-0 bg-white overflow-hidden"
@@ -79,6 +79,7 @@ export function CanvasStage() {
             transform: `scale(${scale})`,
             transformOrigin: "top left",
           }}
+          onClick={() => selectLayer(null)}
         >
           {/* Layer order: photo → frame */}
           <PhotoLayer />
