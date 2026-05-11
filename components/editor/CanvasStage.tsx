@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { ImageIcon } from "lucide-react";
 import { useEditor } from "@/lib/store";
 import {
   ACCEPTED_PHOTO_TYPES,
@@ -84,6 +85,26 @@ export function CanvasStage() {
           {/* Layer order: photo → frame */}
           <PhotoLayer />
           <FrameLayer />
+
+          {/* Empty state — shown before any photo is loaded */}
+          {!photo && (
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none"
+              style={{ gap: 24 }}
+            >
+              <ImageIcon style={{ width: 120, height: 120, opacity: 0.15 }} />
+              <span
+                style={{
+                  fontSize: 36,
+                  fontWeight: 500,
+                  color: "var(--muted-foreground)",
+                  opacity: 0.5,
+                }}
+              >
+                Drop or upload a photo to start
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Text layers rendered in screen-pixel space (scale applied manually) */}

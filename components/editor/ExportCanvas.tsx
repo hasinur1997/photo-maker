@@ -20,16 +20,12 @@ export function ExportCanvas() {
   return (
     <div
       ref={exportCanvasRef}
-      aria-hidden
       style={{
-        position: "fixed",
-        top: -2200,
-        left: 0,
+        position: "relative",
         width: 1080,
         height: 1080,
         overflow: "hidden",
         backgroundColor: "#ffffff",
-        pointerEvents: "none",
       }}
     >
       {/* Photo */}

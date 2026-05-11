@@ -13,6 +13,7 @@ export function FramesTool() {
 
   // Track which slot IDs have user edits so we can preserve them
   const [imgErrors, setImgErrors] = useState<Set<string>>(new Set());
+  const [loadedImgs, setLoadedImgs] = useState<Set<string>>(new Set());
 
   function handleSelectFrame(id: string) {
     const frame = FRAMES.find((f) => f.id === id);
@@ -55,13 +56,20 @@ export function FramesTool() {
           >
             <div className="w-full aspect-square rounded overflow-hidden bg-muted relative">
               {!imgErrors.has(frame.id) ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={frame.thumbnail}
-                  alt={frame.name}
-                  className="w-full h-full object-cover"
-                  onError={() => setImgErrors((s) => new Set([...s, frame.id]))}
-                />
+                <>
+                  {/* Skeleton shown until image loads */}
+                  {!loadedImgs.has(frame.id) && (
+                    <div className="absolute inset-0 bg-muted animate-pulse" />
+                  )}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={frame.thumbnail}
+                    alt={frame.name}
+                    className={cn("w-full h-full object-cover transition-opacity duration-150", loadedImgs.has(frame.id) ? "opacity-100" : "opacity-0")}
+                    onLoad={() => setLoadedImgs((s) => new Set([...s, frame.id]))}
+                    onError={() => setImgErrors((s) => new Set([...s, frame.id]))}
+                  />
+                </>
               ) : (
                 <FrameThumbnailFallback id={frame.id} />
               )}

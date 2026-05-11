@@ -38,6 +38,9 @@ export async function exportImage(options: ExportOptions): Promise<void> {
     height: 1080,
     pixelRatio: 1,
     cacheBust: true,
+    // Skip font-face CSS inlining — cross-origin Google Fonts sheets block cssRules access.
+    // Fonts are already loaded via webfontloader and render correctly from the browser cache.
+    skipFonts: true,
   } as const;
 
   let dataUrl: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import { Redo2, Download, Undo2 } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
@@ -56,10 +56,17 @@ export function TopNavbar() {
       <ThemeToggle />
 
       {/* Download */}
-      <Button onClick={openExport} disabled={!hasPhoto}>
-        <Download className="h-4 w-4 mr-2" />
-        Download
-      </Button>
+      <Tooltip>
+        <TooltipTrigger
+          onClick={openExport}
+          disabled={!hasPhoto}
+          className={cn(buttonVariants({ size: "sm" }), "gap-2")}
+        >
+          <Download className="h-4 w-4" />
+          Download
+        </TooltipTrigger>
+        <TooltipContent>Export as PNG or JPEG</TooltipContent>
+      </Tooltip>
     </header>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect } from "react";
+import { cn } from "@/lib/utils";
 import { useEditor } from "@/lib/store";
 import { loadFromLocalStorage, usePersistence } from "@/lib/persistence";
 import { TopNavbar } from "./TopNavbar";
@@ -97,11 +98,18 @@ export function EditorShell() {
       <TopNavbar />
       <div className="flex flex-1 min-h-0">
         <ToolRail activeTool={activeTool} onToolChange={handleToolChange} />
-        {activeTool !== null && <ToolPanel activeTool={activeTool} />}
+        <div className={cn("overflow-hidden shrink-0 transition-[width] duration-150", activeTool !== null ? "w-72" : "w-0")}>
+          {activeTool !== null && <ToolPanel activeTool={activeTool} />}
+        </div>
         <CanvasStage />
-        {selectedLayerId !== null && <PropertiesPanel />}
+        <div className={cn("overflow-hidden shrink-0 transition-[width] duration-150", selectedLayerId !== null ? "w-72" : "w-0")}>
+          {selectedLayerId !== null && <PropertiesPanel />}
+        </div>
       </div>
-      <ExportCanvas />
+      {/* Off-screen capture target — wrapper handles hiding, ExportCanvas root stays position:relative so html-to-image renders it correctly inside SVG foreignObject */}
+      <div aria-hidden style={{ position: "fixed", top: -9999, left: 0, pointerEvents: "none" }}>
+        <ExportCanvas />
+      </div>
       <ExportDialog />
     </div>
   );
