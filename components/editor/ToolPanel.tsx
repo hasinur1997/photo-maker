@@ -2,6 +2,7 @@ import { UploadTool } from "./tools/UploadTool";
 import { FramesTool } from "./tools/FramesTool";
 import { CustomizeFrameTool } from "./tools/CustomizeFrameTool";
 import { TextTool } from "./tools/TextTool";
+import { ExportTool } from "./tools/ExportTool";
 import type { ActiveTool } from "@/lib/types";
 
 interface ToolPanelProps {
@@ -15,9 +16,7 @@ export function ToolPanel({ activeTool }: ToolPanelProps) {
       {activeTool === "frames" && <FramesTool />}
       {activeTool === "text" && <TextTool />}
       {activeTool === "customize" && <CustomizeFrameTool />}
-      {activeTool === "export" && (
-        <p className="p-4 text-sm text-muted-foreground">Export — Step 13</p>
-      )}
+      {activeTool === "export" && <ExportTool />}
     </aside>
   );
 }

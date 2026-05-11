@@ -102,6 +102,10 @@ type Store = EditorState & {
   redo: () => void;
   /** Push current content to undo history. Called by actions that mutate content. Debounced calls are set up in Step 12. */
   _pushHistory: () => void;
+  // ── Export modal ──────────────────────────────────────────────────────────
+  exportOpen: boolean;
+  openExport: () => void;
+  closeExport: () => void;
 };
 
 // ─── Store ────────────────────────────────────────────────────────────────────
@@ -111,6 +115,9 @@ const useEditorStore = create<Store>()(
     ...INITIAL_STATE,
     _past: [],
     _future: [],
+    exportOpen: false,
+    openExport() { set((d) => { d.exportOpen = true; }); },
+    closeExport() { set((d) => { d.exportOpen = false; }); },
 
     _pushHistory() {
       const snap = takeSnapshot(get());

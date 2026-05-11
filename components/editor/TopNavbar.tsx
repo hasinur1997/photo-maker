@@ -13,6 +13,8 @@ export function TopNavbar() {
   const canRedo = useEditor((s) => s._future.length > 0);
   const undo = useEditor((s) => s.undo);
   const redo = useEditor((s) => s.redo);
+  const openExport = useEditor((s) => s.openExport);
+  const hasPhoto = useEditor((s) => s.photo !== null);
 
   return (
     <header className="h-14 shrink-0 border-b border-border bg-background flex items-center px-4 gap-2">
@@ -53,8 +55,8 @@ export function TopNavbar() {
       {/* Theme toggle */}
       <ThemeToggle />
 
-      {/* Download (placeholder — wired in Step 13) */}
-      <Button disabled>
+      {/* Download */}
+      <Button onClick={openExport} disabled={!hasPhoto}>
         <Download className="h-4 w-4 mr-2" />
         Download
       </Button>

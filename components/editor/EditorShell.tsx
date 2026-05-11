@@ -8,6 +8,8 @@ import { ToolRail } from "./ToolRail";
 import { ToolPanel } from "./ToolPanel";
 import { CanvasStage } from "./CanvasStage";
 import { PropertiesPanel } from "./PropertiesPanel";
+import { ExportCanvas } from "./ExportCanvas";
+import { ExportDialog } from "./ExportDialog";
 import type { ActiveTool } from "@/lib/types";
 
 export type { ActiveTool };
@@ -99,6 +101,8 @@ export function EditorShell() {
         <CanvasStage />
         {selectedLayerId !== null && <PropertiesPanel />}
       </div>
+      <ExportCanvas />
+      <ExportDialog />
     </div>
   );
 }
