@@ -27,7 +27,7 @@ export function TopNavbar() {
             <circle cx="11" cy="5" r="1.25" fill="currentColor"/>
           </svg>
         </div>
-        <span className="font-semibold text-sm tracking-tight text-foreground leading-none">
+        <span className="hidden sm:inline font-semibold text-sm tracking-tight text-foreground leading-none">
           Photo Frame Maker
         </span>
       </div>
@@ -74,7 +74,7 @@ export function TopNavbar() {
           className={cn(buttonVariants({ size: "sm" }), "gap-2")}
         >
           <Download className="h-4 w-4" />
-          Download
+          <span className="hidden sm:inline">Download</span>
         </TooltipTrigger>
         <TooltipContent>Export as PNG or JPEG</TooltipContent>
       </Tooltip>

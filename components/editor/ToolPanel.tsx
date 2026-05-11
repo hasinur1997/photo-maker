@@ -11,7 +11,7 @@ interface ToolPanelProps {
 
 export function ToolPanel({ activeTool }: ToolPanelProps) {
   return (
-    <aside className="w-60 shrink-0 border-r border-border bg-background overflow-y-auto">
+    <aside className="w-full h-full border-r border-border bg-background overflow-y-auto">
       {activeTool === "upload" && <UploadTool />}
       {activeTool === "frames" && <FramesTool />}
       {activeTool === "text" && <TextTool />}

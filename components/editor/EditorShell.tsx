@@ -4,11 +4,14 @@ import { useEffect, useLayoutEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useEditor } from "@/lib/store";
 import { loadFromLocalStorage, usePersistence } from "@/lib/persistence";
+import { useIsMobile } from "@/lib/useIsMobile";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { TopNavbar } from "./TopNavbar";
 import { ToolRail } from "./ToolRail";
 import { ToolPanel } from "./ToolPanel";
 import { CanvasStage } from "./CanvasStage";
 import { PropertiesPanel } from "./PropertiesPanel";
+import { MobileToolBar } from "./MobileToolBar";
 import { ExportCanvas } from "./ExportCanvas";
 import { ExportDialog } from "./ExportDialog";
 import type { ActiveTool } from "@/lib/types";
@@ -36,6 +39,7 @@ export function EditorShell() {
   const loadFromStorage = useEditor((s) => s.loadFromStorage);
   const undo = useEditor((s) => s.undo);
   const redo = useEditor((s) => s.redo);
+  const isMobile = useIsMobile();
 
   // Restore persisted state before the browser paints so there's no empty-canvas flash
   useLayoutEffect(() => {
@@ -96,7 +100,9 @@ export function EditorShell() {
   return (
     <div className="flex flex-col h-full">
       <TopNavbar />
-      <div className="flex flex-1 min-h-0">
+
+      {/* ── Desktop layout (md+) ── */}
+      <div className="hidden md:flex flex-1 min-h-0">
         <ToolRail activeTool={activeTool} onToolChange={handleToolChange} />
         <div className={cn("overflow-hidden shrink-0 transition-[width] duration-150", activeTool !== null ? "w-60" : "w-0")}>
           {activeTool !== null && <ToolPanel activeTool={activeTool} />}
@@ -106,7 +112,44 @@ export function EditorShell() {
           {selectedLayerId !== null && <PropertiesPanel />}
         </div>
       </div>
-      {/* Off-screen capture target — wrapper handles hiding, ExportCanvas root stays position:relative so html-to-image renders it correctly inside SVG foreignObject */}
+
+      {/* ── Mobile layout (<md) ── */}
+      <div className="flex md:hidden flex-1 flex-col min-h-0">
+        <CanvasStage />
+        <MobileToolBar activeTool={activeTool} onToolChange={handleToolChange} />
+      </div>
+
+      {/* Mobile: tool panel bottom sheet */}
+      <Sheet
+        open={isMobile && activeTool !== null}
+        onOpenChange={(open) => { if (!open) setActiveTool(null); }}
+      >
+        <SheetContent side="bottom" showCloseButton={false} className="max-h-[70vh] p-0 flex flex-col rounded-t-2xl">
+          <div className="flex justify-center pt-3 pb-2 shrink-0">
+            <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
+          </div>
+          <div className="overflow-y-auto flex-1 pb-4">
+            {activeTool !== null && <ToolPanel activeTool={activeTool} />}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Mobile: properties panel bottom sheet */}
+      <Sheet
+        open={isMobile && selectedLayerId !== null}
+        onOpenChange={(open) => { if (!open) selectLayer(null); }}
+      >
+        <SheetContent side="bottom" showCloseButton={false} className="max-h-[70vh] p-0 flex flex-col rounded-t-2xl">
+          <div className="flex justify-center pt-3 pb-2 shrink-0">
+            <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
+          </div>
+          <div className="overflow-y-auto flex-1 pb-4">
+            {selectedLayerId !== null && <PropertiesPanel />}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Off-screen capture target */}
       <div aria-hidden style={{ position: "fixed", top: -9999, left: 0, pointerEvents: "none" }}>
         <ExportCanvas />
       </div>

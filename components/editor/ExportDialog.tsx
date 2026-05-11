@@ -25,9 +25,11 @@ export function ExportDialog() {
 
   const [format, setFormat] = useState<ExportFormat>("png");
   const [quality, setQuality] = useState(90);
-  const [filename, setFilename] = useState(
-    () => `photo-frame-${new Date().toISOString().slice(0, 10)}`
-  );
+  const [filename, setFilename] = useState(() => {
+    const date = new Date().toISOString().slice(0, 10);
+    const hash = Math.random().toString(36).slice(2, 7);
+    return `photo-frame-${date}-${hash}`;
+  });
   const [engine, setEngine] = useState<ExportEngine>("html-to-image");
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
