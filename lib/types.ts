@@ -36,6 +36,7 @@ export type TextLayer = {
   color: string; // hex
   backgroundColor: string; // hex or "" for transparent
   textAlign: "left" | "center" | "right";
+  verticalAlign: "top" | "middle" | "bottom";
   lineHeight: number; // unitless multiplier
   letterSpacing: number; // px
   underline: boolean;

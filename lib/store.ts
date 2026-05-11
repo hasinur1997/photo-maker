@@ -40,6 +40,7 @@ const DEFAULT_TEXT_LAYER: Omit<TextLayer, "id"> = {
   color: "#000000",
   backgroundColor: "",
   textAlign: "center",
+  verticalAlign: "top",
   lineHeight: 1.4,
   letterSpacing: 0,
   underline: false,

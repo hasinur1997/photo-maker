@@ -75,23 +75,32 @@ export function TextLayerView({ layer, scale }: TextLayerViewProps) {
   const screenW = layer.width * scale;
   const screenH = layer.height * scale;
 
-  const baseStyle: React.CSSProperties = {
+  const containerStyle: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent:
+      layer.verticalAlign === "middle" ? "center" :
+      layer.verticalAlign === "bottom" ? "flex-end" : "flex-start",
+    backgroundColor: layer.backgroundColor || undefined,
+    transform: `rotate(${layer.rotation}deg)`,
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+  };
+
+  const innerStyle: React.CSSProperties = {
     fontFamily: `'${layer.fontFamily}', sans-serif`,
     fontWeight: layer.fontWeight,
     fontStyle: layer.fontStyle,
     fontSize: layer.fontSize * scale,
     color: layer.color,
-    backgroundColor: layer.backgroundColor || undefined,
     textAlign: layer.textAlign,
     lineHeight: layer.lineHeight,
     letterSpacing: `${layer.letterSpacing * scale}px`,
     textDecoration: layer.underline ? "underline" : "none",
-    transform: `rotate(${layer.rotation}deg)`,
     whiteSpace: "pre-wrap",
     wordBreak: "break-word",
     width: "100%",
-    height: "100%",
-    overflow: "hidden",
   };
 
   return (
@@ -148,26 +157,27 @@ export function TextLayerView({ layer, scale }: TextLayerViewProps) {
           <div className="absolute inset-0 ring-2 ring-primary pointer-events-none" />
         )}
 
-        {/* Display mode — React controls this element */}
+        {/* Display mode */}
         {!editing && (
-          <div style={{ ...baseStyle, cursor: "move", userSelect: "none" }}>
-            {layer.text}
+          <div style={{ ...containerStyle, cursor: "move", userSelect: "none" }}>
+            <div style={innerStyle}>{layer.text}</div>
           </div>
         )}
 
-        {/* Edit mode — no JSX children; content is set imperatively via ref
-            so React never overwrites what the user is typing. */}
+        {/* Edit mode — content set imperatively via ref so React never
+            overwrites what the user is typing. */}
         {editing && (
-          <div
-            ref={editableRef}
-            contentEditable
-            suppressContentEditableWarning
-            style={{ ...baseStyle, cursor: "text", outline: "none" }}
-            onKeyDown={handleKeyDown}
-            onBlur={handleBlur}
-            // Prevent the Rnd drag handler from capturing mousedown while typing
-            onMouseDown={(e) => e.stopPropagation()}
-          />
+          <div style={{ ...containerStyle, cursor: "text" }}>
+            <div
+              ref={editableRef}
+              contentEditable
+              suppressContentEditableWarning
+              style={{ ...innerStyle, outline: "none" }}
+              onKeyDown={handleKeyDown}
+              onBlur={handleBlur}
+              onMouseDown={(e) => e.stopPropagation()}
+            />
+          </div>
         )}
       </div>
     </Rnd>

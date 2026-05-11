@@ -4,6 +4,9 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
+  AlignVerticalJustifyStart,
+  AlignVerticalJustifyCenter,
+  AlignVerticalJustifyEnd,
   Italic,
   Underline,
   ChevronUp,
@@ -172,7 +175,7 @@ export function PropertiesPanel() {
 
         {/* Alignment */}
         <div className="space-y-1.5">
-          <Label className="text-xs text-muted-foreground">Alignment</Label>
+          <Label className="text-xs text-muted-foreground">Horizontal</Label>
           <div className="flex items-center gap-1">
             <Toggle
               size="sm"
@@ -197,6 +200,37 @@ export function PropertiesPanel() {
               aria-label="Align right"
             >
               <AlignRight className="w-3.5 h-3.5" />
+            </Toggle>
+          </div>
+        </div>
+
+        {/* Vertical alignment */}
+        <div className="space-y-1.5">
+          <Label className="text-xs text-muted-foreground">Vertical</Label>
+          <div className="flex items-center gap-1">
+            <Toggle
+              size="sm"
+              pressed={layer.verticalAlign === "top"}
+              onPressedChange={() => updateDiscrete({ verticalAlign: "top" })}
+              aria-label="Align top"
+            >
+              <AlignVerticalJustifyStart className="w-3.5 h-3.5" />
+            </Toggle>
+            <Toggle
+              size="sm"
+              pressed={layer.verticalAlign === "middle"}
+              onPressedChange={() => updateDiscrete({ verticalAlign: "middle" })}
+              aria-label="Align middle"
+            >
+              <AlignVerticalJustifyCenter className="w-3.5 h-3.5" />
+            </Toggle>
+            <Toggle
+              size="sm"
+              pressed={layer.verticalAlign === "bottom"}
+              onPressedChange={() => updateDiscrete({ verticalAlign: "bottom" })}
+              aria-label="Align bottom"
+            >
+              <AlignVerticalJustifyEnd className="w-3.5 h-3.5" />
             </Toggle>
           </div>
         </div>

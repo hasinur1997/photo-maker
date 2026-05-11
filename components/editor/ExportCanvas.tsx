@@ -59,23 +59,34 @@ export function ExportCanvas() {
             top: layer.y,
             width: layer.width,
             height: layer.height,
-            fontFamily: `'${layer.fontFamily}', sans-serif`,
-            fontWeight: layer.fontWeight,
-            fontStyle: layer.fontStyle,
-            fontSize: layer.fontSize,
-            color: layer.color,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent:
+              layer.verticalAlign === "middle" ? "center" :
+              layer.verticalAlign === "bottom" ? "flex-end" : "flex-start",
             backgroundColor: layer.backgroundColor || undefined,
-            textAlign: layer.textAlign,
-            lineHeight: layer.lineHeight,
-            letterSpacing: `${layer.letterSpacing}px`,
-            textDecoration: layer.underline ? "underline" : "none",
             transform: `rotate(${layer.rotation}deg)`,
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
             overflow: "hidden",
           }}
         >
-          {layer.text}
+          <div
+            style={{
+              fontFamily: `'${layer.fontFamily}', sans-serif`,
+              fontWeight: layer.fontWeight,
+              fontStyle: layer.fontStyle,
+              fontSize: layer.fontSize,
+              color: layer.color,
+              textAlign: layer.textAlign,
+              lineHeight: layer.lineHeight,
+              letterSpacing: `${layer.letterSpacing}px`,
+              textDecoration: layer.underline ? "underline" : "none",
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              width: "100%",
+            }}
+          >
+            {layer.text}
+          </div>
         </div>
       ))}
     </div>
