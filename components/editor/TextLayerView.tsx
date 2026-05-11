@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { Rnd } from "react-rnd";
 import { useEditor } from "@/lib/store";
+import { loadFont } from "@/lib/google-fonts";
 import type { TextLayer } from "@/lib/types";
 
 interface TextLayerViewProps {
@@ -18,6 +19,11 @@ export function TextLayerView({ layer, scale }: TextLayerViewProps) {
 
   const isSelected = selectedLayerId === layer.id;
   const [editing, setEditing] = useState(false);
+
+  // Load the font whenever the family or weight changes
+  useEffect(() => {
+    loadFont(layer.fontFamily, [layer.fontWeight]);
+  }, [layer.fontFamily, layer.fontWeight]);
   const editableRef = useRef<HTMLDivElement>(null);
 
   // Focus the contentEditable when entering edit mode

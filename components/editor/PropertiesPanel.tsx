@@ -12,16 +12,16 @@ import {
   Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Toggle } from "@/components/ui/toggle";
 import { ColorPicker } from "@/components/shared/ColorPicker";
 import { SliderField } from "@/components/shared/SliderField";
+import { FontPicker } from "@/components/shared/FontPicker";
 import { useEditor } from "@/lib/store";
+import { getAvailableWeights } from "@/lib/google-fonts-list";
 import type { TextLayer } from "@/lib/types";
 
-const FONT_WEIGHTS = [100, 200, 300, 400, 500, 600, 700, 800, 900];
 const WEIGHT_LABELS: Record<number, string> = {
   100: "100 Thin",
   200: "200 Extra Light",
@@ -67,16 +67,18 @@ export function PropertiesPanel() {
       </div>
 
       <div className="px-4 py-4 space-y-5">
-        {/* Font family — replaced by FontPicker in Step 10 */}
-        <div className="space-y-1.5">
-          <Label className="text-xs text-muted-foreground">Font family</Label>
-          <Input
-            className="h-8 text-xs"
-            value={layer.fontFamily}
-            onChange={(e) => update({ fontFamily: e.target.value })}
-            placeholder="e.g. Inter"
-          />
-        </div>
+        {/* Font family */}
+        <FontPicker
+          label="Font family"
+          value={layer.fontFamily}
+          onChange={(family) => {
+            const weights = getAvailableWeights(family);
+            const bestWeight = weights.includes(layer.fontWeight)
+              ? layer.fontWeight
+              : weights.includes(400) ? 400 : weights[0];
+            update({ fontFamily: family, fontWeight: bestWeight });
+          }}
+        />
 
         {/* Font weight */}
         <div className="space-y-1.5">
@@ -86,9 +88,9 @@ export function PropertiesPanel() {
             value={layer.fontWeight}
             onChange={(e) => update({ fontWeight: Number(e.target.value) })}
           >
-            {FONT_WEIGHTS.map((w) => (
+            {getAvailableWeights(layer.fontFamily).map((w) => (
               <option key={w} value={w}>
-                {WEIGHT_LABELS[w]}
+                {WEIGHT_LABELS[w] ?? `${w}`}
               </option>
             ))}
           </select>
