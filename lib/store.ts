@@ -91,6 +91,9 @@ type Store = EditorState & {
   addTextLayer: (partial?: Partial<Omit<TextLayer, "id">>, slotId?: string) => string;
   updateTextLayer: (id: string, partial: Partial<Omit<TextLayer, "id">>) => void;
   deleteTextLayer: (id: string) => void;
+  duplicateTextLayer: (id: string) => void;
+  moveLayerUp: (id: string) => void;
+  moveLayerDown: (id: string) => void;
   selectLayer: (id: string | null) => void;
   setActiveTool: (tool: ActiveTool) => void;
   loadFromStorage: (snapshot: ContentSnapshot) => void;
@@ -173,6 +176,38 @@ const useEditorStore = create<Store>()(
       set((draft) => {
         draft.textLayers = draft.textLayers.filter((l) => l.id !== id);
         if (draft.selectedLayerId === id) draft.selectedLayerId = null;
+      });
+    },
+
+    duplicateTextLayer(id) {
+      const src = get().textLayers.find((l) => l.id === id);
+      if (!src) return;
+      const newId = nanoid();
+      get()._pushHistory();
+      set((draft) => {
+        const clone = { ...structuredClone(src), id: newId, x: src.x + 20, y: src.y + 20 };
+        draft.textLayers.push(clone as TextLayer);
+        draft.selectedLayerId = newId;
+      });
+    },
+
+    moveLayerUp(id) {
+      get()._pushHistory();
+      set((draft) => {
+        const i = draft.textLayers.findIndex((l) => l.id === id);
+        if (i < draft.textLayers.length - 1) {
+          [draft.textLayers[i], draft.textLayers[i + 1]] = [draft.textLayers[i + 1], draft.textLayers[i]];
+        }
+      });
+    },
+
+    moveLayerDown(id) {
+      get()._pushHistory();
+      set((draft) => {
+        const i = draft.textLayers.findIndex((l) => l.id === id);
+        if (i > 0) {
+          [draft.textLayers[i], draft.textLayers[i - 1]] = [draft.textLayers[i - 1], draft.textLayers[i]];
+        }
       });
     },
 

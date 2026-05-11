@@ -26,6 +26,7 @@ export function EditorShell() {
   const selectedLayerId = useEditor((s) => s.selectedLayerId);
   const setActiveTool = useEditor((s) => s.setActiveTool);
   const deleteTextLayer = useEditor((s) => s.deleteTextLayer);
+  const duplicateTextLayer = useEditor((s) => s.duplicateTextLayer);
   const selectLayer = useEditor((s) => s.selectLayer);
   const addTextLayer = useEditor((s) => s.addTextLayer);
   const undo = useEditor((s) => s.undo);
@@ -56,7 +57,7 @@ export function EditorShell() {
       // Duplicate
       if (meta && e.key === "d") {
         e.preventDefault();
-        // handled in Step 9 Properties Panel
+        if (selectedLayerId) duplicateTextLayer(selectedLayerId);
         return;
       }
 
@@ -84,7 +85,7 @@ export function EditorShell() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [selectedLayerId, deleteTextLayer, selectLayer, addTextLayer, undo, redo]);
+  }, [selectedLayerId, deleteTextLayer, duplicateTextLayer, selectLayer, addTextLayer, undo, redo]);
 
   return (
     <div className="flex flex-col h-full">
