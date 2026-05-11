@@ -98,11 +98,11 @@ export function EditorShell() {
       <TopNavbar />
       <div className="flex flex-1 min-h-0">
         <ToolRail activeTool={activeTool} onToolChange={handleToolChange} />
-        <div className={cn("overflow-hidden shrink-0 transition-[width] duration-150", activeTool !== null ? "w-72" : "w-0")}>
+        <div className={cn("overflow-hidden shrink-0 transition-[width] duration-150", activeTool !== null ? "w-60" : "w-0")}>
           {activeTool !== null && <ToolPanel activeTool={activeTool} />}
         </div>
         <CanvasStage />
-        <div className={cn("overflow-hidden shrink-0 transition-[width] duration-150", selectedLayerId !== null ? "w-72" : "w-0")}>
+        <div className={cn("overflow-hidden shrink-0 transition-[width] duration-150", selectedLayerId !== null ? "w-60" : "w-0")}>
           {selectedLayerId !== null && <PropertiesPanel />}
         </div>
       </div>

@@ -50,7 +50,7 @@ export function PropertiesPanel() {
 
   if (!layer) {
     return (
-      <aside className="w-72 shrink-0 border-l border-border bg-background overflow-y-auto">
+      <aside className="w-60 shrink-0 border-l border-border bg-background overflow-y-auto">
         <div className="p-4 text-xs text-muted-foreground">
           Select a text layer to edit properties.
         </div>
@@ -73,7 +73,7 @@ export function PropertiesPanel() {
   }
 
   return (
-    <aside className="w-72 shrink-0 border-l border-border bg-background overflow-y-auto">
+    <aside className="w-60 shrink-0 border-l border-border bg-background overflow-y-auto">
       <div className="px-4 py-3 border-b border-border">
         <span className="text-sm font-semibold">Text Properties</span>
       </div>

@@ -25,7 +25,7 @@ interface ToolRailProps {
 
 export function ToolRail({ activeTool, onToolChange }: ToolRailProps) {
   return (
-    <aside className="w-16 shrink-0 border-r border-border bg-background flex flex-col items-center py-2 gap-1">
+    <aside className="w-12 shrink-0 border-r border-border bg-background flex flex-col items-center py-2 gap-1">
       {TOOLS.map(({ id, label, icon: Icon }) => (
         <Tooltip key={id}>
           <TooltipTrigger
