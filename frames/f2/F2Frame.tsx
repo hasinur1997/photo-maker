@@ -1,58 +1,101 @@
+"use client";
+
 import type { FrameComponentProps } from "../types";
 import { frameWrapperStyle, C } from "../shared";
 
-/** Modern Editorial Border — dark green header/side/footer borders, photo shows through cream card window */
+/** Modern Editorial — full-photo with transparent overlays, school logo, gradient bands, vertical accent text */
 export function F2Frame({ customization: c }: FrameComponentProps) {
-  // Card window: top=153, left=54, w=947, h=810 → photo shows through here
   return (
     <div
       className="absolute inset-0 pointer-events-none overflow-hidden"
       style={frameWrapperStyle(c)}
     >
-      {/* Dark green fills outer borders */}
-      <div className="absolute top-0 left-0 right-0" style={{ height: 153, background: C.green }} />
-      <div className="absolute left-0 right-0" style={{ top: 963, bottom: 0, background: C.green }} />
-      <div className="absolute top-0 bottom-0 left-0" style={{ width: 54, background: C.green }} />
-      <div className="absolute top-0 bottom-0 right-0" style={{ width: 79, background: C.green }} />
-
-      {/* Header content: logo circle + school name placeholders */}
+      {/* Top gradient — darkens header area for text legibility */}
       <div
-        className="absolute flex items-center"
-        style={{ top: 0, left: 0, right: 0, height: 153, paddingLeft: 72, paddingRight: 72 }}
-      >
-        {/* Gold logo circle */}
-        <div
-          className="shrink-0 rounded-full flex items-center justify-center"
-          style={{ width: 60, height: 60, background: C.gold, color: C.forest, fontSize: 11, fontWeight: 700, marginRight: 16 }}
-        >
-          স.উ
-        </div>
-        {/* Name block placeholders */}
-        <div className="flex flex-col gap-2">
-          <div style={{ width: 220, height: 11, background: "rgba(250,246,237,0.25)", borderRadius: 2 }} />
-          <div style={{ width: 130, height: 8, background: "rgba(232,198,107,0.3)", borderRadius: 2 }} />
-        </div>
-        <div className="flex-1" />
-        <div style={{ color: C.goldLight, fontSize: 12, fontFamily: "Inter", letterSpacing: 3, fontWeight: 700 }}>
-          ALUMNI
-        </div>
-      </div>
-
-      {/* Subtle separator line below header */}
-      <div
-        className="absolute"
-        style={{ top: 153, left: 54, right: 79, height: 1, background: "rgba(255,255,255,0.15)" }}
+        className="absolute top-0 left-0 right-0"
+        style={{ height: 260, background: "linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0) 100%)" }}
       />
 
-      {/* Bottom footer */}
+      {/* Header row: logo + school info + alumni badge */}
       <div
-        className="absolute flex items-center justify-between"
-        style={{ top: 963, left: 0, right: 0, bottom: 0, paddingLeft: 72, paddingRight: 72 }}
+        className="absolute top-0 left-0 right-0 flex items-center"
+        style={{ height: 110, paddingLeft: 60, paddingRight: 60 }}
       >
-        <div style={{ color: C.goldLight, fontSize: 10, fontFamily: "Inter", letterSpacing: 2, fontWeight: 600 }}>
-          আমাদের অতীত স্মৃতি, আমাদের বন্ধন
+        {/* School logo — circular with white border */}
+        <div
+          className="shrink-0"
+          style={{
+            width: 72, height: 72, borderRadius: "50%",
+            overflow: "hidden",
+            border: "2.5px solid rgba(255,255,255,0.85)",
+            marginRight: 16,
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/school-logo.png"
+            alt="School logo"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </div>
+
+        {/* School name + alumni association — rendered via text slots (slots positioned here) */}
+        <div className="flex-1" />
+
+        {/* ALUMNI badge top-right */}
+        <div
+          style={{
+            background: C.gold,
+            color: "#1A1A14",
+            fontFamily: "Inter",
+            fontSize: 11,
+            fontWeight: 800,
+            letterSpacing: 3,
+            padding: "9px 18px",
+          }}
+        >
+          ALUMNI &#39;26
         </div>
       </div>
+
+      {/* Thin gold separator under header */}
+      <div
+        className="absolute left-0 right-0"
+        style={{ top: 110, height: 1, background: "rgba(232,198,107,0.35)" }}
+      />
+
+      {/* Right-edge vertical text: SARATGANJ · MEMORIES · VOL. 01 */}
+      <div
+        className="absolute top-0 bottom-0 right-0 flex items-center justify-center"
+        style={{ width: 38 }}
+      >
+        <span
+          style={{
+            color: "rgba(255,255,255,0.55)",
+            fontFamily: "Inter",
+            fontSize: 10,
+            fontWeight: 500,
+            letterSpacing: 4,
+            transform: "rotate(90deg)",
+            whiteSpace: "nowrap",
+            display: "block",
+          }}
+        >
+          SARATGANJ · MEMORIES · VOL. 01
+        </span>
+      </div>
+
+      {/* Bottom dark gradient */}
+      <div
+        className="absolute bottom-0 left-0 right-0"
+        style={{ height: 420, background: "linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0) 100%)" }}
+      />
+
+      {/* Gold accent line above title */}
+      <div
+        className="absolute"
+        style={{ left: 60, bottom: 178, width: 52, height: 3, background: C.gold }}
+      />
     </div>
   );
 }

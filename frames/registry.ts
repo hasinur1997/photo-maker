@@ -50,9 +50,10 @@ export const FRAMES: FrameDefinition[] = [
     defaultCustomization: BASE,
     Component: F2Frame,
     textSlots: [
-      { id: "school-name", defaultText: "শরৎগঞ্জ তফিজ উদ্দিন আহমেদ উচ্চ বিদ্যালয়", defaults: { x: 122, y: 16, width: 520, height: 26, fontFamily: "Hind Siliguri", fontWeight: 700, fontSize: 18, color: "#FAF6ED", textAlign: "left" } },
-      { id: "alumni-assoc", defaultText: "Alumni Association", defaults: { x: 122, y: 46, width: 340, height: 18, fontFamily: "Inter", fontWeight: 700, fontSize: 10, color: "#E8C66B", textAlign: "left" } },
-      { id: "center-text", defaultText: "আমাদের অতীত স্মৃতি, আমাদের বন্ধন", defaults: { x: 140, y: 440, width: 800, height: 60, fontFamily: "Hind Siliguri", fontWeight: 700, fontSize: 36, color: "#FAF6ED", textAlign: "center" } },
+      { id: "school-name", defaultText: "শরৎগঞ্জ তফিজ উদ্দিন আহমেদ উচ্চ বিদ্যালয়", defaults: { x: 152, y: 34, width: 540, height: 32, fontFamily: "Hind Siliguri", fontWeight: 700, fontSize: 18, color: "#FAF6ED", textAlign: "left" } },
+      { id: "alumni-assoc", defaultText: "Alumni Association", defaults: { x: 152, y: 70, width: 380, height: 22, fontFamily: "Inter", fontWeight: 600, fontSize: 10, color: "#E8C66B", textAlign: "left" } },
+      { id: "main-title", defaultText: "আমাদের স্মৃতি", defaults: { x: 60, y: 860, width: 720, height: 90, fontFamily: "Galada", fontWeight: 400, fontSize: 72, color: "#FFFFFF", textAlign: "left" } },
+      { id: "subtitle", defaultText: "প্রতিটি মুহূর্ত, প্রতিটি বন্ধন — আমাদের আলামনাই অ্যাসোসিয়েশনের গর্ব।", defaults: { x: 60, y: 960, width: 800, height: 56, fontFamily: "Hind Siliguri", fontWeight: 400, fontSize: 16, color: "rgba(255,255,255,0.75)", textAlign: "left" } },
     ],
   },
   {
