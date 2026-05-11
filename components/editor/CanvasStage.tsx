@@ -10,6 +10,7 @@ import {
 } from "@/lib/photo";
 import { PhotoLayer } from "./PhotoLayer";
 import { FrameLayer } from "./FrameLayer";
+import { TextLayerView } from "./TextLayerView";
 import { cn } from "@/lib/utils";
 
 const CANVAS_SIZE = 1080;
@@ -20,6 +21,8 @@ export function CanvasStage() {
 
   const photo = useEditor((s) => s.photo);
   const setPhoto = useEditor((s) => s.setPhoto);
+  const textLayers = useEditor((s) => s.textLayers);
+  const selectLayer = useEditor((s) => s.selectLayer);
 
   // Scale the 1080×1080 canvas to fill available space
   useEffect(() => {
@@ -64,6 +67,7 @@ export function CanvasStage() {
       <div
         className="relative shadow-xl"
         style={{ width: scaledSize, height: scaledSize }}
+        onClick={() => selectLayer(null)}
       >
         {/* The actual 1080×1080 canvas, scaled via CSS transform */}
         <div
@@ -76,10 +80,15 @@ export function CanvasStage() {
             transformOrigin: "top left",
           }}
         >
-          {/* Layer order: photo → frame → text */}
+          {/* Layer order: photo → frame */}
           <PhotoLayer />
           <FrameLayer />
         </div>
+
+        {/* Text layers rendered in screen-pixel space (scale applied manually) */}
+        {textLayers.map((layer) => (
+          <TextLayerView key={layer.id} layer={layer} scale={scale} />
+        ))}
       </div>
 
       {/* Global drop overlay hint */}
